@@ -29,9 +29,13 @@
 '''
 moomoolbo/
 ├── app.py # 메인 Flask 애플리케이션
+
 ├── requirements.txt # 필요한 라이브러리 명세
+
 ├── Procfile # Render 배포용 실행 명령
+
 └── templates/
+
 └── index.html # 사용자 인터페이스 HTML
 
 ---
