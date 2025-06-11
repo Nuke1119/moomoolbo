@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>타임머신 캘린더 - 구글 뉴스 RSS</title>
+    <meta charset="UTF-8">
+    <title>타임머신 캘린더</title>
 </head>
 <body>
-    <h1>타임머신 캘린더 - 구글 뉴스 RSS</h1>
+    <h1>🕰️ 타임머신 캘린더</h1>
     <form method="GET" action="/">
-        <label for="keyword">검색 키워드:</label>
-        <input type="text" id="keyword" name="keyword" value="{{ selected_keyword }}" required>
-        <button type="submit">뉴스 검색</button>
+        <label>검색 키워드: </label>
+        <input type="text" name="keyword" value="{{ selected_keyword }}">
+        <button type="submit">검색</button>
     </form>
 
     {% if news %}
-        <h2>뉴스 헤드라인 (키워드: {{ selected_keyword }})</h2>
+        <h2>🔍 "{{ selected_keyword }}"에 대한 뉴스 결과</h2>
         <ul>
-        {% for title in news %}
-            <li>{{ title }}</li>
+        {% for item in news %}
+            <li><a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a></li>
         {% endfor %}
         </ul>
+    {% else %}
+        <p>뉴스 기사를 찾을 수 없습니다.</p>
     {% endif %}
 </body>
 </html>
