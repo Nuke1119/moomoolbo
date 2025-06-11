@@ -13,7 +13,6 @@ def get_google_news_rss(query, days=7):
 @app.route('/', methods=['GET'])
 def index():
     keyword = request.args.get('keyword', '기술')
-    selected_date = request.args.get('date')
 
     # 뉴스 데이터 가져오기
     news_list = get_google_news_rss(keyword)
@@ -29,7 +28,6 @@ def index():
         'index.html',
         news=news_list,
         selected_keyword=keyword,
-        selected_date=selected_date,
         history=session['history']
     )
 
