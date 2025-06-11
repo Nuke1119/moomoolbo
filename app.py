@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import feedparser
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # 세션을 쓰기 위한 시크릿 키 설정
 
 def get_google_news_rss(query, days=7):
     url = f'https://news.google.com/rss/search?q={query}+when:{days}d&hl=ko&gl=KR&ceid=KR:ko'
@@ -12,10 +13,25 @@ def get_google_news_rss(query, days=7):
 @app.route('/', methods=['GET'])
 def index():
     keyword = request.args.get('keyword', '기술')
-    news_list = []
-    if keyword:
-        news_list = get_google_news_rss(keyword)
-    return render_template('index.html', news=news_list, selected_keyword=keyword)
+    selected_date = request.args.get('date')
+
+    # 뉴스 데이터 가져오기
+    news_list = get_google_news_rss(keyword)
+
+    # 검색 히스토리 세션에 저장
+    if 'history' not in session:
+        session['history'] = []
+    if keyword and keyword not in session['history']:
+        session['history'].append(keyword)
+        session.modified = True
+
+    return render_template(
+        'index.html',
+        news=news_list,
+        selected_keyword=keyword,
+        selected_date=selected_date,
+        history=session['history']
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
