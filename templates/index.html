@@ -33,5 +33,15 @@
         {% endfor %}
         </ul>
     {% endif %}
+
+    {% if hot_keywords %}
+        <hr>
+        <h3>🔥 인기 키워드 TOP 5</h3>
+        <ol>
+        {% for word, count in hot_keywords %}
+            <li>{{ word }} ({{ count }}회)</li>
+        {% endfor %}
+        </ol>
+    {% endif %}
 </body>
 </html>
