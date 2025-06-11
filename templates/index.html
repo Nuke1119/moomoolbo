@@ -6,14 +6,20 @@
 </head>
 <body>
     <h1>🕰️ 타임머신 캘린더</h1>
+
     <form method="GET" action="/">
         <label>검색 키워드: </label>
         <input type="text" name="keyword" value="{{ selected_keyword }}">
+        <label>날짜 선택: </label>
+        <input type="date" name="date" value="{{ selected_date }}">
         <button type="submit">검색</button>
     </form>
 
     {% if news %}
         <h2>🔍 "{{ selected_keyword }}"에 대한 뉴스 결과</h2>
+        {% if selected_date %}
+            <p>🗓️ 선택한 날짜: {{ selected_date }}</p>
+        {% endif %}
         <ul>
         {% for item in news %}
             <li><a href="{{ item.link }}" target="_blank" rel="noopener noreferrer">{{ item.title }}</a></li>
