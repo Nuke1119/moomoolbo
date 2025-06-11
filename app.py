@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session
 import feedparser
 from collections import Counter
+import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -16,16 +17,16 @@ def index():
     keyword = request.args.get('keyword', '기술')
     news_list = get_google_news_rss(keyword)
 
-    # 히스토리 저장 및 카운트
+    # 세션에 검색어 저장
     if 'history' not in session:
         session['history'] = []
     if keyword:
         session['history'].append(keyword)
         session.modified = True
 
-    # 인기 키워드 카운트
+    # 인기 키워드 계산
     keyword_counts = Counter(session['history'])
-    hot_keywords = keyword_counts.most_common(5)  # 상위 5개
+    hot_keywords = keyword_counts.most_common(5)
 
     return render_template(
         'index.html',
@@ -36,4 +37,6 @@ def index():
     )
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Render용 포트 설정
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
