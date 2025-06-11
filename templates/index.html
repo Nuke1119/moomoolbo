@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>🕰️ 타임머신 캘린더</h1>
+
     <form method="GET" action="/">
         <label>검색 키워드: </label>
         <input type="text" name="keyword" value="{{ selected_keyword }}">
@@ -21,6 +22,16 @@
         </ul>
     {% else %}
         <p>뉴스 기사를 찾을 수 없습니다.</p>
+    {% endif %}
+
+    {% if history %}
+        <hr>
+        <h3>📚 최근 검색 키워드</h3>
+        <ul>
+        {% for keyword in history %}
+            <li><a href="/?keyword={{ keyword }}">{{ keyword }}</a></li>
+        {% endfor %}
+        </ul>
     {% endif %}
 </body>
 </html>
